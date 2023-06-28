@@ -1,6 +1,7 @@
 import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
+import Square from "../square";
 
 export default class Queen extends Piece {
     public constructor(player: Player) {
@@ -8,6 +9,57 @@ export default class Queen extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
-        return new Array(0);
+        const currentPos = board.findPiece(this);
+        const moves: Square[] = [];
+
+        let i = 1;
+        while (currentPos.row + i < 8 && currentPos.col + i < 8) {
+            moves.push(new Square(currentPos.row + i, currentPos.col + i));
+            i++;
+        }
+
+        i = 1;
+        while (currentPos.row - i >= 0 && currentPos.col - i >= 0) {
+            moves.push(new Square(currentPos.row - i, currentPos.col - i));
+            i++;
+        }
+
+        i = 1;
+        while (currentPos.row + i < 8 && currentPos.col - i >= 0) {
+            moves.push(new Square(currentPos.row + i, currentPos.col - i));
+            i++;
+        }
+
+        i = 1;
+        while (currentPos.row - i >= 0 && currentPos.col + i < 8) {
+            moves.push(new Square(currentPos.row - i, currentPos.col + i));
+            i++;
+        }
+
+        i = 1;
+        while (currentPos.col + i < 8) {
+            moves.push(new Square(currentPos.row, currentPos.col + i));
+            i++;
+        }
+
+        i = 1;
+        while (currentPos.col - i >= 0) {
+            moves.push(new Square(currentPos.row, currentPos.col - i));
+            i++;
+        }
+
+        i = 1;
+        while (currentPos.row + i < 8) {
+            moves.push(new Square(currentPos.row + i, currentPos.col));
+            i++
+        }
+
+        i = 1;
+        while (currentPos.row - i >= 0) {
+            moves.push(new Square(currentPos.row - i, currentPos.col));
+            i++
+        }
+
+        return moves;
     }
 }

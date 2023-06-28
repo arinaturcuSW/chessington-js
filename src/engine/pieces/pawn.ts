@@ -17,10 +17,7 @@ export default class Pawn extends Piece {
 
         const direction: number = this.player === Player.WHITE ? +1 : -1;
 
-        // moves.push(new Square(currentPos.row + direction, currentPos.col - 1));
-        // moves.push(new Square(currentPos.row + direction, currentPos.col + 1));
         moves.push(new Square(currentPos.row + direction, currentPos.col));
-
         if (!this.hasMoved) {
             moves.push(new Square(currentPos.row + 2 * direction, currentPos.col));
         }

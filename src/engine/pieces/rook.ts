@@ -13,25 +13,25 @@ export default class Rook extends Piece {
         const currentPos = board.findPiece(this);
 
         let i = 1;
-        while (currentPos.col + i < 8) {
+        while (board.isMoveValid(currentPos.row, currentPos.col + i)) {
             moves.push(new Square(currentPos.row, currentPos.col + i));
             i++;
         }
 
         i = 1;
-        while (currentPos.col - i >= 0) {
+        while (board.isMoveValid(currentPos.row, currentPos.col - i)) {
             moves.push(new Square(currentPos.row, currentPos.col - i));
             i++;
         }
 
         i = 1;
-        while (currentPos.row + i < 8) {
+        while (board.isMoveValid(currentPos.row + i, currentPos.col)) {
             moves.push(new Square(currentPos.row + i, currentPos.col));
             i++
         }
 
         i = 1;
-        while (currentPos.row - i >= 0) {
+        while (board.isMoveValid(currentPos.row - i, currentPos.col)) {
             moves.push(new Square(currentPos.row - i, currentPos.col));
             i++
         }

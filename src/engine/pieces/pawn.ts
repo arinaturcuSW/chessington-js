@@ -4,25 +4,32 @@ import Board from '../board';
 import Square from "../square";
 
 export default class Pawn extends Piece {
+    private hasMoved: boolean;
+
     public constructor(player: Player) {
         super(player);
+        this.hasMoved = false;
     }
 
     public getAvailableMoves(board: Board) {
         const currentPos = board.findPiece(this);
+        const moves: Square[] = [];
 
-        if (this.player === Player.WHITE) {
-            return [
-                new Square(currentPos.row + 1, currentPos.col - 1),
-                new Square(currentPos.row + 1, currentPos.col),
-                new Square(currentPos.row + 1, currentPos.col + 1),
-            ];
+        const direction: number = this.player === Player.WHITE ? +1 : -1;
+
+        // moves.push(new Square(currentPos.row + direction, currentPos.col - 1));
+        // moves.push(new Square(currentPos.row + direction, currentPos.col + 1));
+        moves.push(new Square(currentPos.row + direction, currentPos.col));
+
+        if (!this.hasMoved) {
+            moves.push(new Square(currentPos.row + 2 * direction, currentPos.col));
         }
 
-        return [
-            new Square(currentPos.row - 1, currentPos.col - 1),
-            new Square(currentPos.row - 1, currentPos.col),
-            new Square(currentPos.row - 1, currentPos.col + 1),
-        ];
+        return moves;
+    }
+
+    public moveTo(board: Board, newSquare: Square) {
+        super.moveTo(board, newSquare);
+        this.hasMoved = true;
     }
 }

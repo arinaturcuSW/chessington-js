@@ -12,29 +12,22 @@ export default class Rook extends Piece {
         const moves: Square[] = [];
         const currentPos = board.findPiece(this);
 
-        let i = 1;
-        while (board.isMoveValid(currentPos.row, currentPos.col + i)) {
-            moves.push(new Square(currentPos.row, currentPos.col + i));
-            i++;
-        }
+        let distance = [1, 2, 3, 4, 5, 6, 7, 8];
+        let direction = [-1, 0, 1];
 
-        i = 1;
-        while (board.isMoveValid(currentPos.row, currentPos.col - i)) {
-            moves.push(new Square(currentPos.row, currentPos.col - i));
-            i++;
-        }
+        distance.forEach(dist => {
+            direction.forEach(dirRow => {
+                direction.forEach(dirCol => {
+                    if (dirCol * dirRow !== 0 || dirCol + dirRow === 0) {
+                        return;
+                    }
 
-        i = 1;
-        while (board.isMoveValid(currentPos.row + i, currentPos.col)) {
-            moves.push(new Square(currentPos.row + i, currentPos.col));
-            i++
-        }
-
-        i = 1;
-        while (board.isMoveValid(currentPos.row - i, currentPos.col)) {
-            moves.push(new Square(currentPos.row - i, currentPos.col));
-            i++
-        }
+                    if (board.isMoveValid(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
+                        moves.push(new Square(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol));
+                    }
+                })
+            });
+        });
 
         return moves;
     }

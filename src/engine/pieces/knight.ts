@@ -12,39 +12,19 @@ export default class Knight extends Piece {
         const currentPos = board.findPiece(this);
         const moves: Square[] = [];
 
-        if (board.isMoveValid(currentPos.row - 2, currentPos.col -1)) {
-            moves.push(new Square(currentPos.row - 2, currentPos.col - 1))
-        }
+        const direction = [-2, -1, 1, 2];
 
-        if (board.isMoveValid(currentPos.row - 2, currentPos.col + 1)) {
-            moves.push(new Square(currentPos.row - 2, currentPos.col + 1))
-        }
+        direction.forEach(dirRow => {
+            direction.forEach(dirCol => {
+                if ( dirCol + dirRow === 0 || dirCol === dirRow ) {
+                    return;
+                }
 
-        if (board.isMoveValid(currentPos.row + 2, currentPos.col - 1)) {
-            moves.push(new Square(currentPos.row + 2, currentPos.col - 1))
-        }
-
-        if (board.isMoveValid(currentPos.row + 2, currentPos.col + 1)) {
-            moves.push(new Square(currentPos.row + 2, currentPos.col + 1))
-        }
-
-        ///////////
-
-        if (board.isMoveValid(currentPos.row - 1, currentPos.col - 2)) {
-            moves.push(new Square(currentPos.row - 1, currentPos.col - 2))
-        }
-
-        if (board.isMoveValid(currentPos.row - 1, currentPos.col + 2)) {
-            moves.push(new Square(currentPos.row - 1, currentPos.col + 2))
-        }
-
-        if (board.isMoveValid(currentPos.row + 1, currentPos.col - 2)) {
-            moves.push(new Square(currentPos.row + 1, currentPos.col - 2))
-        }
-
-        if (board.isMoveValid(currentPos.row + 1, currentPos.col + 2)) {
-            moves.push(new Square(currentPos.row + 1, currentPos.col + 2))
-        }
+                if (board.isMoveValid(currentPos.row + dirRow, currentPos.col + dirCol)) {
+                    moves.push(new Square(currentPos.row + dirRow, currentPos.col + dirCol));
+                }
+            })
+        });
 
         return moves;
     }

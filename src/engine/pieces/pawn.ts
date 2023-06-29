@@ -23,6 +23,7 @@ export default class Pawn extends Piece {
 
         if (
             !this.hasMoved &&
+            board.isMoveValid(currentPos.row + 2 * direction, currentPos.col) &&
             board.isSquareAvailable(currentPos.row + 2 * direction, currentPos.col) &&
             board.isSquareAvailable(currentPos.row + direction, currentPos.col))
         {

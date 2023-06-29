@@ -3,6 +3,7 @@ import Player from '../player';
 import Board from '../board';
 import Square from "../square";
 import GameSettings from "../gameSettings";
+import King from "./king";
 
 export default class Rook extends Piece {
     public constructor(player: Player) {
@@ -25,16 +26,23 @@ export default class Rook extends Piece {
                         return;
                     }
 
+                    const square = new Square(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol);
+
                     if (!board.isMoveValid(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
                         return;
                     }
 
                     if (!board.isSquareAvailable(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
+                        const piece: Piece | undefined = board.getPiece(square);
+                        if (piece?.player !== this.player && !(piece instanceof King)) {
+                            moves.push(square);
+                        }
+
                         shouldBreak = true;
                         return;
                     }
 
-                    moves.push(new Square(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol));
+                    moves.push(square);
                 })
             });
         });

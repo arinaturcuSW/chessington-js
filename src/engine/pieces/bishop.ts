@@ -12,15 +12,24 @@ export default class Bishop extends Piece {
         const currentPos = board.findPiece(this);
         const moves: Square[] = [];
 
-        let distance = [1, 2, 3, 4, 5, 6, 7, 8];
+        let distance = [1, 2, 3, 4, 5, 6, 7];
         let direction = [-1, 1];
+        let shouldBreak = false;
 
-        distance.forEach(dist => {
-            direction.forEach(dirRow => {
-                direction.forEach(dirCol => {
-                    if (board.isMoveValid(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
-                        moves.push(new Square(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol));
+        direction.forEach(dirRow => {
+            direction.forEach(dirCol => {
+                shouldBreak = false;
+                distance.forEach(dist => {
+                    if (shouldBreak || !board.isMoveValid(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
+                        return
                     }
+
+                    if (!board.isSquareAvailable(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
+                        shouldBreak = true;
+                        return;
+                    }
+
+                    moves.push(new Square(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol));
                 })
             });
         });

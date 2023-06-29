@@ -20,8 +20,15 @@ export default class King extends Piece {
                     return;
                 }
 
-                if (board.isMoveValid(currentPos.row + dirRow, currentPos.col + dirCol)) {
-                    moves.push(new Square(currentPos.row + dirRow, currentPos.col + dirCol));
+                const square = new Square(currentPos.row + dirRow, currentPos.col + dirCol);
+
+                if (!board.isMoveValid(square.row, square.col)) {
+                    return;
+                }
+
+                const piece: Piece | undefined = board.getPiece(square);
+                if (!piece || piece?.player !== this.player && !(piece instanceof King)) {
+                    moves.push(square);
                 }
             })
         })

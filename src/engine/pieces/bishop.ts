@@ -2,6 +2,7 @@ import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
 import Square from "../square";
+import King from "./king";
 
 export default class Bishop extends Piece {
     public constructor(player: Player) {
@@ -24,12 +25,19 @@ export default class Bishop extends Piece {
                         return;
                     }
 
+                    const square = new Square(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol);
+
                     if (!board.isSquareAvailable(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
+                        const piece: Piece | undefined = board.getPiece(square);
+                        if (piece?.player !== this.player && !(piece instanceof King)) {
+                            moves.push(square);
+                        }
+
                         shouldBreak = true;
                         return;
                     }
 
-                    moves.push(new Square(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol));
+                    moves.push(square);
                 })
             });
         });

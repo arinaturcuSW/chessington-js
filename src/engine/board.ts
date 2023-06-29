@@ -45,8 +45,8 @@ export default class Board {
             row >= 0 && row < 8;
     }
 
-    public isSquareAvailable(square: Square) {
-        return this.board[square.row][square.col] === undefined;
+    public isSquareAvailable(row: number, col: number) {
+        return this.board[row][col] === undefined;
     }
 
     private createBoard() {

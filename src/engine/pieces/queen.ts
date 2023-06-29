@@ -14,29 +14,46 @@ export default class Queen extends Piece {
 
         let distance = [1, 2, 3, 4, 5, 6, 7, 8];
         let directionRook = [-1, 0, 1];
+        let shouldBreak = false;
 
-        distance.forEach(dist => {
-            directionRook.forEach(dirRow => {
-                directionRook.forEach(dirCol => {
-                    if (dirCol * dirRow !== 0 || dirCol + dirRow === 0) {
+        directionRook.forEach(dirRow => {
+            directionRook.forEach(dirCol => {
+                shouldBreak = false;
+                distance.forEach(dist => {
+                    if (dirCol * dirRow !== 0 || dirCol + dirRow === 0 || shouldBreak) {
                         return;
                     }
 
-                    if (board.isMoveValid(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
-                        moves.push(new Square(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol));
+                    if (!board.isMoveValid(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
+                        return;
                     }
+
+                    if (!board.isSquareAvailable(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
+                        shouldBreak = true;
+                        return;
+                    }
+
+                    moves.push(new Square(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol));
                 })
             });
         });
 
         let directionBishop = [-1, 1];
 
-        distance.forEach(dist => {
-            directionBishop.forEach(dirRow => {
-                directionBishop.forEach(dirCol => {
-                    if (board.isMoveValid(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
-                        moves.push(new Square(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol));
+        directionBishop.forEach(dirRow => {
+            directionBishop.forEach(dirCol => {
+                shouldBreak = false;
+                distance.forEach(dist => {
+                    if (shouldBreak || !board.isMoveValid(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
+                        return;
                     }
+
+                    if (!board.isSquareAvailable(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
+                        shouldBreak = true;
+                        return;
+                    }
+
+                    moves.push(new Square(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol));
                 })
             });
         });

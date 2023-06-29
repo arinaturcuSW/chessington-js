@@ -21,7 +21,7 @@ export default class Bishop extends Piece {
                 shouldBreak = false;
                 distance.forEach(dist => {
                     if (shouldBreak || !board.isMoveValid(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
-                        return
+                        return;
                     }
 
                     if (!board.isSquareAvailable(currentPos.row + dist * dirRow, currentPos.col + dist * dirCol)) {
